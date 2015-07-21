@@ -20,7 +20,7 @@ import scala.beans.BeanProperty
 import scala.collection.immutable.ListMap
 import com.github.seratch.scalikesolr.request.common.WriterType
 import scala.xml.{ Node, XML }
-import com.github.seratch.scalikesolr.{ SolrDocumentValue, SolrDocument, SolrjSolrDocument }
+import com.github.seratch.scalikesolr.{ SolrDocumentValue, SolrDocumentBinValue, SolrDocument, SolrjSolrDocument }
 import org.apache.solr.common.util.{ NamedList, SimpleOrderedMap }
 import org.apache.solr.common.SolrDocumentList
 
@@ -134,7 +134,7 @@ object Groups {
                         new SolrDocument(
                           writerType = writerType,
                           map = ListMap.empty[String, SolrDocumentValue] ++ doc.keySet.asScala.map {
-                            case key => (key, new SolrDocumentValue(doc.get(key).toString))
+                            case key => (key, new SolrDocumentBinValue(doc.get(key).toString))
                           }
                         )
                     }).toList
@@ -155,7 +155,7 @@ object Groups {
                             new SolrDocument(
                               writerType = writerType,
                               map = ListMap.empty[String, SolrDocumentValue] ++ doc.keySet.asScala.map {
-                                case key => (key, new SolrDocumentValue(doc.get(key).toString))
+                                case key => (key, new SolrDocumentBinValue(doc.get(key).toString))
                               }
                             )
                         }.toList

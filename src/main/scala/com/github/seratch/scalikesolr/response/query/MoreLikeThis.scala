@@ -22,7 +22,7 @@ import scala.collection.JavaConverters._
 import com.github.seratch.scalikesolr.request.common.WriterType
 import org.apache.solr.common.util.NamedList
 import scala.xml.{ Node, XML }
-import com.github.seratch.scalikesolr.{ SolrDocumentValue, SolrDocument }
+import com.github.seratch.scalikesolr.{ SolrDocumentValue, SolrDocumentBinValue, SolrDocument }
 import org.apache.solr.common.SolrDocumentList
 import com.github.seratch.scalikesolr.SolrjSolrDocument
 
@@ -57,7 +57,7 @@ object MoreLikeThis {
                 val solrDocs = (result \ "doc") map {
                   doc =>
                     new SolrDocument(map = ListMap.empty[String, SolrDocumentValue] ++ doc.child.map {
-                      case field => ((field \ "@name").text, new SolrDocumentValue(field.text))
+                      case field => ((field \ "@name").text, SolrDocumentValue(field.text))
                     })
                 }
                 Map((result \ "@name").text -> solrDocs.toList)
@@ -85,7 +85,7 @@ object MoreLikeThis {
                 new SolrDocument(
                   writerType = WriterType.JavaBinary,
                   map = ListMap.empty[String, SolrDocumentValue] ++ doc.keySet.asScala.map {
-                    case key => (key.toString -> new SolrDocumentValue(doc.get(key).toString))
+                    case key => (key.toString -> SolrDocumentBinValue(doc.get(key)))
                   }
                 )
             }.toList

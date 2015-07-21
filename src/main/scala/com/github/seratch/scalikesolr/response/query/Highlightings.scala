@@ -52,7 +52,7 @@ object Highlightings {
               val hl = hlList(0)
               ListMap.empty[String, SolrDocument] ++ (hl \ "lst").flatMap {
                 case lst: Node =>
-                  val element = (lst \ "arr") map (arr => ((arr \ "@name").text, new SolrDocumentValue(arr.child.text)))
+                  val element = (lst \ "arr") map (arr => ((arr \ "@name").text, SolrDocumentValue(arr.child.text)))
                   Some((lst \ "@name").text, new SolrDocument(map = element.toMap))
                 case _ => None
               }
@@ -69,7 +69,7 @@ object Highlightings {
                 map = ListMap.empty[String, SolrDocumentValue] ++ element.iterator.asScala.map {
                   case eachInValue: java.util.Map.Entry[_, _] =>
                     val value = eachInValue.getValue.toString.replaceFirst("^\\[", "").replaceFirst("\\]$", "")
-                    (eachInValue.getKey.toString, new SolrDocumentValue(value))
+                    (eachInValue.getKey.toString, SolrDocumentValue(value))
                 }))
             }
           }.toMap

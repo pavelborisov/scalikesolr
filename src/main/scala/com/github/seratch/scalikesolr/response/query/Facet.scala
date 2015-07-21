@@ -21,7 +21,7 @@ import scala.collection.immutable.ListMap
 import com.github.seratch.scalikesolr.request.common.WriterType
 import org.apache.solr.common.util.NamedList
 import scala.xml.{ Node, XML }
-import com.github.seratch.scalikesolr.{ SolrDocumentValue, SolrDocument }
+import com.github.seratch.scalikesolr.{ SolrDocumentValue, SolrDocumentBinValue, SolrDocument }
 
 case class Facet(@BeanProperty val facetQueries: Map[String, SolrDocument],
     @BeanProperty val facetFields: Map[String, SolrDocument],
@@ -116,7 +116,7 @@ object Facet {
               val docKey = e.getKey.asInstanceOf[String]
               val doc = e.getValue.asInstanceOf[NamedList[Any]]
               val map = ListMap.empty[String, SolrDocumentValue] ++ doc.asScala.map {
-                case e: MapEntry => (e.getKey -> new SolrDocumentValue(e.getValue.toString))
+                case e: MapEntry => (e.getKey -> SolrDocumentBinValue(e.getValue.toString))
               }
               (docKey.toString -> new SolrDocument(writerType = WriterType.JavaBinary, map = map))
             }

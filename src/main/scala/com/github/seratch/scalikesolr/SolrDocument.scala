@@ -33,10 +33,10 @@ case class SolrDocument(@BeanProperty val writerType: WriterType = WriterType.St
       (writerType match {
         case WriterType.Standard =>
           XML.loadString(rawBody).child map {
-            case elem: Node => ((elem \ "@name").toString, new SolrDocumentValue(elem.text))
+            case elem: Node => ((elem \ "@name").toString, new SolrDocumentStringValue(elem.text))
           }
         case WriterType.JavaBinary =>
-          rawJavabin.getFieldNames.asScala map (e => (e.toString -> new SolrDocumentValue(rawJavabin.get(e).toString)))
+          rawJavabin.getFieldNames.asScala map (e => (e.toString -> new SolrDocumentBinValue(rawJavabin.get(e))))
         case other =>
           throw new UnsupportedOperationException("\"" + other.wt + "\" is currently not supported.")
       }).toMap
@@ -47,7 +47,7 @@ case class SolrDocument(@BeanProperty val writerType: WriterType = WriterType.St
 
   def keysInJava(): java.util.List[String] = java.util.Arrays.asList(keys().toArray: _*)
 
-  def get(key: String): SolrDocumentValue = document.getOrElse(key, SolrDocumentValue(""))
+  def get(key: String): SolrDocumentValue = document.getOrElse(key, SolrDocumentStringValue(""))
 
   def bind[T](clazz: Class[T]): T = TypeBinder.bind(this, clazz)
 

@@ -59,7 +59,7 @@ object UpdateFormatLoader {
       case line: String =>
         val values = line.replaceFirst("\r", "").split(",").toList
         val docMap = headers.zip(values).toList.map {
-          case (key, value) => (key.toString, new SolrDocumentValue(value.toString))
+          case (key, value) => (key.toString, SolrDocumentValue(value.toString))
         }.toMap
         listBuf.append(new SolrDocument(map = docMap))
     }

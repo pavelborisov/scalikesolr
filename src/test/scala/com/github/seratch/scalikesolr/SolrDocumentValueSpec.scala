@@ -15,72 +15,72 @@ class SolrDocumentValueSpec extends FlatSpec with ShouldMatchers {
 
   "toDateOrElse" should "be available" in {
     {
-      val value = new SolrDocumentValue("2010-12-31T23:59:59.000Z")
+      val value = SolrDocumentValue("2010-12-31T23:59:59.000Z")
       val expected = new DateTime("2010-12-31T23:59:59.000Z")
       value.toDateOrElse(null).getTime should equal(expected.toDate.getTime)
     }
     {
-      val value = new SolrDocumentValue("2010-12-31T23:59:59Z")
+      val value = SolrDocumentValue("2010-12-31T23:59:59Z")
       val expected = new DateTime("2010-12-31T23:59:59.000Z")
       value.toDateOrElse(null).getTime should equal(expected.toDate.getTime)
     }
     {
-      val value = new SolrDocumentValue("xxx")
+      val value = SolrDocumentValue("xxx")
       value.toDateOrElse(null) should be(null)
     }
   }
 
   "toDateTimeOrElse" should "be available" in {
     {
-      val value = new SolrDocumentValue("2010-12-31T23:59:59.100Z")
+      val value = SolrDocumentValue("2010-12-31T23:59:59.100Z")
       val expected = new DateTime("2010-12-31T23:59:59.10Z")
       value.toDateTimeOrElse(null) should equal(expected)
     }
     {
-      val value = new SolrDocumentValue("2010-12-31T23:59:59Z")
+      val value = SolrDocumentValue("2010-12-31T23:59:59Z")
       val expected = new DateTime("2010-12-31T23:59:59.000Z")
       value.toDateTimeOrElse(null) should equal(expected)
     }
     {
-      val value = new SolrDocumentValue("xxx")
+      val value = SolrDocumentValue("xxx")
       value.toDateTimeOrElse(null) should be(null)
     }
   }
 
   "toLocalTimeOrElse" should "be available" in {
     {
-      val value = new SolrDocumentValue("2010-12-31T23:59:59.000Z")
+      val value = SolrDocumentValue("2010-12-31T23:59:59.000Z")
       val dateTime = new DateTime("2010-12-31T23:59:59.000Z")
       value.toLocalTimeOrElse(null) should equal(new LocalTime(dateTime))
     }
     {
-      val value = new SolrDocumentValue("xxx")
+      val value = SolrDocumentValue("xxx")
       value.toLocalTimeOrElse(null) should be(null)
     }
   }
 
   "toLocalDateOrElse" should "be available" in {
     {
-      val value = new SolrDocumentValue("2010-12-31T23:59:59.000Z")
+      val value = SolrDocumentValue("2010-12-31T23:59:59.000Z")
       val dateTime = new DateTime("2010-12-31T23:59:59.000Z")
       value.toLocalDateOrElse(null) should equal(new LocalDate(dateTime))
     }
     {
-      val value = new SolrDocumentValue("xxx")
+      val value = SolrDocumentValue("xxx")
       value.toLocalDateOrElse(null) should be(null)
     }
   }
 
   "toCalendarOrElse" should "be available" in {
     {
-      val value = new SolrDocumentValue("2010-12-31T23:59:59.000Z")
+      val value = SolrDocumentValue("2010-12-31T23:59:59.000Z")
       val dateTime = new DateTime("2010-12-31T23:59:59.000Z")
       var expected = Calendar.getInstance()
       expected.setTime(dateTime.toDate)
       value.toCalendarOrElse(null).getTimeInMillis should equal(expected.getTimeInMillis)
     }
     {
-      val value = new SolrDocumentValue("xxx")
+      val value = SolrDocumentValue("xxx")
       value.toCalendarOrElse(null) should be(null)
     }
   }

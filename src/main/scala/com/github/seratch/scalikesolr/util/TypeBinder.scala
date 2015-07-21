@@ -84,7 +84,8 @@ object TypeBinder {
                   method.invoke(dest, document.get(solrFieldName).toNullableShortOrElse(0))
                 case t if t == classOf[String] =>
                   method.invoke(dest, document.get(solrFieldName).toString())
-
+                case t if t == classOf[Option[_]] =>
+                // skip
                 case t if t == classOf[java.lang.Boolean] =>
                   method.invoke(dest, document.get(solrFieldName).toNullableBooleanOrElse(false))
                 case t if t == classOf[java.lang.Float] =>

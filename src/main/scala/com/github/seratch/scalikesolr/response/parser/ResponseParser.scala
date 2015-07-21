@@ -18,7 +18,7 @@ package com.github.seratch.scalikesolr.response.parser
 
 import com.github.seratch.scalikesolr.request.common.WriterType
 import com.github.seratch.scalikesolr.response.common.ResponseHeader
-import com.github.seratch.scalikesolr.{ SolrDocument, SolrDocumentValue }
+import com.github.seratch.scalikesolr.{ SolrDocument, SolrDocumentBinValue }
 import scala.xml.XML
 import org.apache.solr.common.util.{ SimpleOrderedMap, NamedList }
 
@@ -51,7 +51,7 @@ object ResponseParser {
         val responseHeader = rawJavaBin.get("responseHeader").asInstanceOf[NamedList[Any]]
         import collection.JavaConverters._
         val docMap = responseHeader.get("params").asInstanceOf[SimpleOrderedMap[Any]].asScala.map {
-          case e: java.util.Map.Entry[_, _] => (e.getKey.toString, new SolrDocumentValue(e.getValue.toString))
+          case e: java.util.Map.Entry[_, _] => (e.getKey.toString, new SolrDocumentBinValue(e.getValue))
         }.toMap
         new ResponseHeader(
           responseHeader.get("status").toString.toInt,
